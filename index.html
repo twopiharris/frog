@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html lang="en-US"
+      manifest = "cache.manifest">
+<head>
+    <meta charset="UTF-8">
+    <title>frog.html</title>
+    <link rel="apple-touch-icon" href="frogIcon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <style type="text/css">
+        #reset {
+            position: absolute;
+            left: 450px;
+            top: 10px;
+            z-index: 999;
+        }
+    </style>
+    <script type="text/javascript"
+            src = "simpleGame.js">
+    </script>
+    <script type = "text/javascript"
+            src = "frogLib.js"></script>
+    <script type="text/javascript">
+        var scene;
+        var frog;
+        var flies;
+        var leaves;
+        var ribbitMP3;
+        var ribbitOGG;
+        var ribbetPG;
+        var scoreBoard;
+        var hits;
+        var NUMFLIES = 3;
+        var MAXTIME = 30;
+        var timer;
+        var time;
+        var joy;
+
+        function init(){
+            scoreBoard = document.getElementById("scoreBoard");
+            hits = 0;
+            timer = new Timer();
+            scene = new Scene();
+            scene.setBG("green");
+            scene.setSize(400, 280);
+            frog = new Frog();
+            leaves = new Sprite(scene, "leaves.png", 400, 280);
+            leaves.setSpeed(0);
+            leaves.setPosition(200, 140);
+            ribbitMP3 = new Sound("ribbit.mp3");
+            ribbitOGG = new Sound("ribbit.ogg");
+            //add a phonegap media element -- NOT WORKING
+            //ribbitPG = new Media("ribbit.ogg");
+            
+            if (scene.touchable){
+                joy = new Joy();
+            }
+
+            setupFlies();
+            scene.start();
+        } // end init
+
+        function checkJoy(){
+            //defined here because frog does not
+            //have access to virtual joystick
+            dx = joy.getDiffX();
+            dy = joy.getDiffY();
+            frog.setSpeed((dy * -1) / 5);
+            frog.changeAngleBy(dx / 10);
+        }
+  
+        function update(){
+            scene.clear();
+            checkTime();
+            if (scene.touchable){
+                checkJoy();
+            } else {
+                frog.checkKeys();
+            } // end if
+            
+            leaves.update();
+            for (i = 0; i < NUMFLIES; i++){
+              flies[i].wriggle();
+              checkCollisions(i);
+              flies[i].update();
+            } // end for loop
+            frog.update();
+        } // end update();
+   
+        function setupFlies(){
+            flies = new Array(NUMFLIES);
+            for (i = 0; i < NUMFLIES; i++){
+              flies[i] = new Fly();
+            } // end for
+        } // end setupFlies
+        
+        function checkCollisions(flyNum){
+            if (frog.collidesWith(flies[flyNum])){
+                flies[flyNum].reset();
+                ribbitMP3.play();
+                ribbitOGG.play();
+                //ribbitPG.play();
+                hits += 1;
+                updateScore();
+            } // end if
+        } // end checkCollisions
+        
+        function updateScore(){
+            //update the scoreboard
+            scoreBoard.innerHTML = "Hits: " + hits + ". Time: " + time;
+        } // end updateScore
+        
+        function checkTime(){
+            time = timer.getElapsedTime();
+            if (time > MAXTIME){
+                scene.stop();
+            } // end if
+            updateScore();
+
+        } // end checkTime
+        
+        function restart(){
+            document.location.href = "";
+        } // end restart
+        
+    </script>
+    
+</head>
+<body onload = "init()">
+    <div id = "scoreBoard">Hits: 0</div>
+    <div id = "reset">
+        <button type = "button"
+                onclick = "restart()">
+            Play again
+        </button>
+    </div>
+</body>
+
+</html>

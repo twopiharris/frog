@@ -17,9 +17,8 @@
     </author>
     
     <!-- specifying android only, as that's the only test environment I have -->
-    <!--
+    
     <gap:platform name="android" />
-    -->
 	
     <!--
         Enable individual API permissions here.

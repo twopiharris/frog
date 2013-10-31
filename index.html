@@ -50,7 +50,7 @@
             ribbitMP3 = new Sound("ribbit.mp3");
             ribbitOGG = new Sound("ribbit.ogg");
             //add a phonegap media element -- NOT WORKING
-            //ribbitPG = new Media("ribbit.ogg");
+            ribbitPG = new Media("ribbit.ogg");
             
             if (scene.touchable){
                 joy = new Joy();
@@ -99,7 +99,7 @@
                 flies[flyNum].reset();
                 ribbitMP3.play();
                 ribbitOGG.play();
-                //ribbitPG.play();
+                ribbitPG.play();
                 hits += 1;
                 updateScore();
             } // end if

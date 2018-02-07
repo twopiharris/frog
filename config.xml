@@ -43,10 +43,11 @@
 	<!--
 	changing to 3.0.0 - hopefully this will be 3.0
     <preference name="phonegap-version"           value="2.9.0" /> -->         <!-- all: current version of PhoneGap -->
-    
+<!--    
 	<preference name="phonegap-version"           value="3.0.0" />
-	
-	<preference name="orientation"                value="landscape" />        <!-- all: default means both landscape and portrait are enabled -->
+-->
+    <preference name='phonegap-version' value='cli-6.5.0' />	
+    <preference name="orientation"                value="landscape" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
     <preference name="fullscreen"                 value="true" />           <!-- all: hides the status bar at the top of the screen -->
     <preference name="webviewbounce"              value="true" />           <!-- ios: control whether the screen 'bounces' when scrolled beyond the top -->
